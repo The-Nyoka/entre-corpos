@@ -1,0 +1,369 @@
+/* Entre Corpos — landing v0
+   Direção: "Photographs at uneven sizes" (Taste, seed 1720497773), tipo Clash Grotesk.
+   Paleta: ciano e magenta (pedido do Rhadzony), sobre fundo escuro. Um fundo, uma tinta, um acento (magenta, só na ação
+   e no avatar da coisa viva) e um campo (ciano, uma seção inteira).
+   Efeitos pedidos pelo Rhadzony, mesmo contra a casa do Taste: desfoque, vinheta e grão — só sobre a MÍDIA, nunca sobre texto.
+   Tamanhos de fonte: cinco degraus (small, body, lead, head, e o nome do rodapé). */
+
+:root {
+  --bg: #07070d;
+  --surface: #10101a;
+  --surface-2: #171726;
+  --ink: #eef1ff;
+  --muted: #a3a8c4;
+  --accent: #ff2fd0;        /* magenta */
+  --accent-ink: #07070d;
+  --field: #12e6ff;         /* ciano */
+  --field-ink: #07070d;
+
+  --font-display: "Clash Grotesk", system-ui, sans-serif;
+  --font-text: "Clash Grotesk", system-ui, sans-serif;
+
+  --margin: clamp(1.25rem, 5.5vw, 6rem);
+  --gutter: clamp(1rem, 2vw, 2rem);
+  --section: clamp(7rem, 10vw, 11rem);
+  --radius: 0px;
+}
+
+html { background: var(--bg); color-scheme: dark; scrollbar-color: #2c2c44 var(--bg); }
+body { font-weight: 400; letter-spacing: 0; overflow-x: clip; }
+h1, h2, h3 { letter-spacing: -0.03em; line-height: 0.98; font-weight: 400; }
+.head { font-size: var(--step-head); }
+.link-plain { color: inherit; }
+::selection { background: var(--accent); color: var(--accent-ink); }
+:target { scroll-margin-top: 0; }   /* o topo é transparente: a seção pode encostar no alto da tela */
+
+/* ---------- mídia: placeholder (vira <img>/<video> quando houver material) ---------- */
+.ph { margin: 0; }
+.ph__body {
+  position: relative; overflow: clip;   /* clip, não hidden: hidden viraria contêiner de rolagem e desligaria a animação por scroll do texto de dentro */
+  aspect-ratio: var(--ar, 4 / 5);
+  background: var(--box, var(--surface));
+  padding: 1.25rem;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: .4rem;
+}
+.ph__body > :not(.veil-rail) { position: relative; }              /* texto acima do grão */
+.ph__body::before, .foot__media::before, .hero__window::after {  /* GRÃO: textura PNG, só sobre a mídia */
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: url("../img/grain.png"); background-size: 256px; opacity: .07;
+}
+.ph__tag { font-size: var(--step-small); color: var(--muted); max-width: 40ch; }
+.ph__title { font-size: var(--step-body); font-weight: 500; line-height: 1.2; }
+.ph__desc { font-size: var(--step-body); max-width: 38ch; line-height: 1.4; }
+.ph__body--on-field { --box: var(--field-ink); color: var(--ink); }
+.ph figcaption { margin-top: .6rem; }
+.moment:nth-child(odd) .ph__body, .g2 .ph__body, .g4 .ph__body { --box: var(--surface-2); }
+
+/* VINHETA (gradiente radial, pedido do Rhadzony; o inspetor recebe --allow gradient) */
+.vignette {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 46%, rgba(0,0,0,0) 38%, rgba(0,0,0,.72) 100%); /* taste-skill-ignore: vinheta pedida pelo Rhadzony (referências Giordano/Tamás) */
+}
+
+/* ---------- HERO ---------- */
+.hero { position: relative; min-height: 100svh; overflow: clip; color: var(--ink); }
+.hero__stage { position: absolute; inset: 0; }
+.hero__backdrop { position: absolute; inset: 0; filter: blur(52px) saturate(1.25); transform: scale(1.14); }   /* DESFOQUE: a mesma mídia, em tela cheia */
+.hero .frame { position: absolute; inset: 0; opacity: 0; }
+.hero .frame--1 { opacity: 1; }
+.frame--1 { background: #232349; }
+.frame--2 { background: #0f4256; }
+.frame--3 { background: #4a1a5a; }
+.hero__window {                                   /* a janela nítida: a mídia em foco */
+  position: absolute; z-index: 1;
+  right: var(--margin); top: 5.5rem;
+  width: min(72vw, calc((100svh - 14rem) * 16 / 9)); aspect-ratio: 16 / 9; overflow: hidden;
+}
+.hero__window .frame { padding: 1.5rem; display: flex; flex-direction: column; justify-content: flex-end; gap: .4rem; }
+.hero__window .frame > * { position: relative; z-index: 1; }
+
+/* TOPO FIXO E TRANSPARENTE: só os links, sem fundo, sempre. A marca "Entre Corpos" é o título do hero (um elemento só):
+   no alto ela está embaixo à esquerda; ao rolar o JavaScript a leva ao topo, encolhendo (ver js/site.js).
+   Como o topo não tem fundo, ele pega a cor da seção que está embaixo (--header-ink, definida por data-ink em js/base.js). */
+:root { --title-bottom: 2rem; }
+.top {
+  position: fixed; z-index: 20; top: 0; left: 0; right: 0;
+  display: flex; justify-content: flex-end; align-items: flex-start;
+  padding: 1.1rem var(--margin);
+  color: var(--header-ink, var(--ink));
+  font-size: var(--step-small); line-height: 1.25;
+  transition: color var(--t-ui) ease;
+  pointer-events: none;            /* a faixa transparente não bloqueia o que está embaixo */
+}
+.top a { text-decoration: none; pointer-events: auto; }
+.top__nav { color: var(--nav-ink, var(--header-ink, var(--ink))); transition: color var(--t-ui) ease; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .15rem .55rem; max-width: 60%; }
+.top__nav a:not(:last-child)::after { content: ","; }
+@media (hover: hover) { .top__nav a:hover { text-decoration: underline; text-underline-offset: .2em; } }
+
+/* A MARCA "Entre Corpos" — um elemento só, em CSS puro (sem JavaScript no movimento):
+   • Ela mora numa "trilha" (.brand) que tem a altura da página inteira e começa em cima do hero.
+   • O h1 é position: sticky. No alto da página ele fica no hero, embaixo à esquerda, e ROLA NATIVAMENTE com o hero,
+     no mesmo quadro que todo o resto, até o último instante.
+   • Quando o topo dele chega na linha do topo (--brand-top) ele gruda ali pelo resto da página: vira a marca do topo.
+   • Só nos instantes finais antes de grudar (--brand-morph de scroll) ele encolhe (scale), ligado ao scroll por um
+     "probe" invisível (.brand__probe) que marca esse trecho. Origem do scale: canto superior esquerdo. */
+:root { --title-bottom: 2rem; --brand-top: 1.1rem; --brand-morph: min(22svh, 12rem); --brand-scale: .22; }
+html { timeline-scope: --brand; }
+body { position: relative; }
+.brand { position: absolute; z-index: 21; top: 0; bottom: 0; left: var(--margin); pointer-events: none; }
+.brand__spacer { display: block; height: calc(100svh - var(--title-bottom) - 2em); font-size: var(--step-head); }   /* 2em = as duas linhas do título */
+.brand__probe {
+  position: absolute; left: 0; width: 1px; font-size: var(--step-head);
+  height: var(--brand-morph); top: calc(100svh - var(--title-bottom) - 2em - var(--brand-morph));
+  view-timeline: --brand block; view-timeline-inset: var(--brand-top) 0px;
+}
+.hero__title {
+  position: sticky; top: var(--brand-top); margin: 0; width: max-content; pointer-events: auto;
+  font-size: var(--step-head); line-height: 1; letter-spacing: -0.03em;
+  color: var(--header-ink, var(--ink)); transition: color var(--t-ui) ease;
+  transform-origin: 0 0;
+  animation: brand-shrink linear both; animation-timeline: --brand; animation-range: exit 0% exit 100%;
+}
+@keyframes brand-shrink { to { transform: scale(var(--brand-scale)); } }
+@media (prefers-reduced-motion: reduce) { .hero__title { animation-range: exit 96% exit 100%; } }   /* quase instantâneo */
+@supports not (animation-timeline: view()) { .hero__title { position: static; } }                       /* sem suporte: é só o título do hero */
+.hero__home { display: block; color: inherit; text-decoration: none; }
+.hero__side { position: absolute; z-index: 3; right: var(--margin); bottom: 2rem; display: flex; flex-direction: column; align-items: flex-end; gap: 1.1rem; text-align: right; }
+.hero__side p { font-size: var(--step-lead); max-width: 32ch; margin: 0; line-height: 1.3; }
+
+.button { font-weight: 500; letter-spacing: 0; }
+@media (hover: hover) { .button:hover { background: var(--ink); } }
+.button--dark { background: var(--field-ink); color: var(--field); }
+@media (hover: hover) { .button--dark:hover { background: var(--bg); color: var(--ink); } }
+
+/* troca lenta de mídia (assinatura): três frames, 6 s cada, ~1,2 s de fusão */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero .frame { animation: xfade 18s linear infinite; animation-delay: calc(var(--i, 0) * 6s - 1.2s); }
+  .is-hidden .hero .frame { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero .frame--2, .hero .frame--3 { display: none; }   /* a página reduzida é a página final: só o primeiro frame */
+}
+@keyframes xfade { 0% { opacity: 0; } 7% { opacity: 1; } 33% { opacity: 1; } 40% { opacity: 0; } 100% { opacity: 0; } }
+
+/* ---------- 1. O FILME ---------- */
+.intro { padding-block: var(--section); }
+.intro__grid { row-gap: 0; align-items: start; }
+.intro__pic { grid-column: 1 / 4; grid-row: 1; margin-top: calc(max(14vh, 4rem) + 6rem); }
+.intro__copy { grid-column: 7 / 13; grid-row: 1; padding-top: max(14vh, 4rem); }
+.intro__text { max-width: 28ch; font-size: var(--step-lead); line-height: 1.25; text-indent: 3em; }
+.intro__body { margin-top: 2rem; max-width: 46ch; }
+.intro__note { grid-column: 1 / 3; grid-row: 2; margin-top: 5rem; max-width: 180px; }
+
+/* ---------- TEASER ---------- */
+.teaser { padding-bottom: var(--section); }
+.teaser__head { margin-bottom: 2rem; }
+.teaser__note { margin-top: .9rem; }
+.teaser__media .ph__body { width: 100%; }
+
+/* ---------- 2. COMO SE ENTRA ---------- */
+.moments__top { display: flex; justify-content: space-between; align-items: end; gap: 1rem; }
+.moments__btns { display: flex; gap: .5rem; }
+.sq { width: 3rem; height: 3rem; background: var(--surface-2); color: var(--ink); font-size: var(--step-lead); display: inline-flex; align-items: center; justify-content: center; transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out); }
+@media (hover: hover) { .sq:hover { background: var(--accent); color: var(--accent-ink); } }
+.sq:active { transform: scale(.94); }
+.moments__bar { position: relative; height: 6px; margin: 1.75rem var(--margin) 0; padding: 0; background: var(--surface-2); overflow: hidden; }
+.moments__fill { position: absolute; inset: 0; background: var(--ink); transform-origin: left center; transform: scaleX(var(--p, .2)); }
+ul.moments__track {   /* ul.: precisa ganhar de "ul[class]{padding:0}" do base.css */
+  display: flex; gap: 2rem; margin: 3rem 0 0; padding: 0 var(--margin) 1rem; list-style: none;
+  overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none;
+}
+.moments__track::-webkit-scrollbar { display: none; }
+.moment { flex: 0 0 280px; scroll-snap-align: start; scroll-margin-inline-start: var(--margin); }
+.moment h3 { font-size: var(--step-body); font-weight: 500; letter-spacing: 0; line-height: 1.3; }
+.moment > p { font-size: var(--step-body); line-height: 1.4; color: var(--ink); margin-top: .55rem; min-height: 5.6em; }
+.moment .ph { margin-top: var(--gap, 5rem); }
+
+.live { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); margin-top: var(--section); align-items: center; }
+.live__copy { grid-column: 1 / 5; }
+.live__copy p { margin-top: 1rem; max-width: 32ch; }
+.live__stage { grid-column: 5 / 13; margin: 0; }
+.live__svg { width: 100%; height: auto; overflow: visible; }
+.live__svg path { fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.live__svg circle { fill: none; }
+.live__body path, .live__headring { stroke: var(--field); stroke-width: 5; }
+.live__avatar path, .live__avatar circle { stroke: var(--accent); stroke-width: 5; }
+.live__avatar circle { fill: none; }
+.live__pt { fill: var(--field) !important; stroke: transparent !important; stroke-width: 36px !important; cursor: grab; touch-action: none; transition: fill var(--t-hover) ease; }
+.live__pt:active { cursor: grabbing; }
+.live__pt:focus-visible { outline: none; fill: var(--ink) !important; }
+@media (hover: hover) { .live__pt:hover { fill: var(--ink) !important; } }
+.live__label { fill: var(--muted); font-size: 14px; font-family: var(--font-text); }
+
+/* ---------- 3. GALERIA ---------- */
+.gallery { padding-block: var(--section); }
+.gallery__row:last-child { margin-bottom: 0; }
+.gallery__row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); margin-bottom: 13vh; align-items: start; }
+.gallery__row--a .g1 { grid-column: 1 / 5; grid-row: 1; }
+.gallery__row--a .g2 { grid-column: 7 / 13; grid-row: 1; margin-top: 16vh; }
+.gallery__row--b .g3 { grid-column: 6 / 12; grid-row: 1; }
+.gallery__row--b .g4 { grid-column: 2 / 5; grid-row: 1; margin-top: 14vh; }
+.gallery__row--mirror .g1 { grid-column: 9 / 13; }
+.gallery__row--mirror .g2 { grid-column: 1 / 8; }
+
+/* ---------- 4. PERGUNTAS (campo ciano) ---------- */
+.faq { background: var(--field); color: var(--field-ink); padding-block: var(--section); overflow: clip; }
+.faq :focus-visible { outline-color: var(--field-ink); }
+.faq__grid { padding-inline: var(--margin); align-items: start; }
+.faq__col { grid-column: 1 / 6; }
+.faq__col .head { max-width: 9em; }
+.faq__facts { margin-top: 1.5rem; font-size: var(--step-body); }
+.faq__list { margin-top: 2.5rem; display: grid; gap: 1.75rem; }
+.faq summary { font-size: var(--step-lead); line-height: 1.25; cursor: pointer; list-style: none; position: relative; padding-right: 2rem; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; position: absolute; right: .35rem; top: .35em; width: .6rem; height: .6rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform var(--t-ui) var(--ease-out); }
+.faq details[open] summary::after { transform: rotate(-135deg); top: .6em; }
+.faq details p { margin-top: .8rem; max-width: 46ch; color: var(--field-ink); }
+.faq__actions { margin-top: 3rem; display: flex; align-items: center; gap: 1.75rem; flex-wrap: wrap; }
+.faq__art { grid-column: 7 / 13; position: relative; margin-bottom: 5rem; }   /* sem sangrar no alto: o topo é transparente e tem texto escuro aqui */
+.faq__tall .ph__body { justify-content: flex-start; }   /* texto no topo: o quadrado pequeno cobre o canto de baixo */
+.faq__small { position: absolute; left: -11%; bottom: -3rem; width: 32%; }
+
+/* ---------- 5. UNIVERSO ---------- */
+.universe { padding-block: var(--section); }
+.universe__title { max-width: 11em; text-indent: 3vw; }
+.universe__grid { margin-top: 5rem; align-items: end; }
+.universe__pic { grid-column: 1 / 5; grid-row: 1; }
+.universe__table { grid-column: 7 / 13; grid-row: 1; align-self: start; }
+.universe__word { margin-bottom: 1.5rem; }
+.rows { list-style: none; margin: 0; padding: 0; display: grid; row-gap: 1.65rem; }
+.rows li { display: grid; grid-template-columns: 10rem 10rem minmax(0, 1fr); column-gap: 1rem; line-height: 1.4; align-items: baseline; }
+.rows__kind { font-size: var(--step-small); }
+.rows__name { font-weight: 500; font-size: var(--step-body); }
+.rows__what { text-align: right; font-size: var(--step-small); }
+.rows__gap { margin-top: 1.4rem; }
+
+/* ---------- 6. CONTATO ---------- */
+.contact { padding-block: var(--section); }
+.contact__grid { align-items: start; }
+.contact__lead { grid-column: 1 / 6; font-size: var(--step-lead); line-height: 1.2; letter-spacing: -0.02em; max-width: 26ch; }
+.contact__pic { grid-column: 8 / 10; }
+.contact__pic .ph__body { padding: .75rem; }
+.contact__pic .ph__desc, .contact__pic .ph__tag { display: none; }
+.contact__links { grid-column: 10 / 13; display: flex; flex-direction: column; gap: .9rem; align-items: flex-start; }
+.contact__q { font-weight: 500; margin-bottom: .5rem; }
+.contact__links .small { margin-top: .6rem; }
+
+/* ---------- RODAPÉ ---------- */
+.foot { margin-top: 0; }
+.foot__stage { position: relative; height: calc(100svh - var(--veil-h)); min-height: 24rem; overflow: clip; }   /* menor que a tela: no fim da página o topo do rodapé fica abaixo da faixa do topo */
+.foot__media {
+  position: absolute; inset: 0; z-index: 0; background: #1c2447; filter: brightness(.62);
+  display: flex; flex-direction: column; justify-content: center; gap: .4rem; padding: 0 var(--margin);
+}
+.foot__media > * { position: relative; z-index: 1; max-width: 44ch; }
+.foot__top { position: absolute; z-index: 3; top: 2rem; left: var(--margin); right: var(--margin); display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; font-size: var(--step-body); }
+.foot__links { display: flex; flex-direction: column; gap: .4rem; }
+.foot__links a { text-decoration: none; }
+@media (hover: hover) { .foot__links a:hover { text-decoration: underline; text-underline-offset: .2em; } }
+.foot__mark { position: absolute; z-index: 3; left: var(--margin); right: var(--margin); bottom: 3.5rem; margin: 0; max-width: none; font-family: var(--font-display); font-weight: 500; font-size: 10.2vw; line-height: .85; letter-spacing: -0.03em; white-space: nowrap; }
+.foot__legal { position: absolute; z-index: 3; left: var(--margin); bottom: 1.25rem; margin: 0; font-size: var(--step-small); color: var(--muted); }
+
+/* ---------- CENA 01: A DANÇA ---------- */
+.dance { padding-block: var(--section); }
+.dance__lead { margin-top: 1.25rem; max-width: 34ch; font-size: var(--step-lead); line-height: 1.25; }
+.dance__grid { margin-top: 4.5rem; align-items: start; row-gap: 3rem; }
+.dance__grid .d1 { grid-column: 1 / 8; grid-row: 1; }
+.dance__grid .d2 { grid-column: 9 / 13; grid-row: 1 / span 2; margin-top: 16vh; }
+.dance__grid .d3 { grid-column: 5 / 8; grid-row: 2; }
+
+/* ---------- A PRODUTORA: CAPIVARA ---------- */
+.studio { padding-block: var(--section); }
+.studio__grid { align-items: start; }
+.studio__copy { grid-column: 1 / 6; }
+.studio__lead { margin-top: 1.5rem; max-width: 26ch; font-size: var(--step-lead); line-height: 1.25; }
+ul.crew { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; row-gap: 1rem; }
+.crew li { display: grid; grid-template-columns: 11rem minmax(0, 1fr); column-gap: 1rem; align-items: baseline; line-height: 1.35; }
+.crew__role { font-size: var(--step-small); }
+.crew__name { font-weight: 500; font-size: var(--step-body); }
+.studio__art { grid-column: 7 / 13; }
+.studio__art .s2 { width: 42%; margin-top: 2.5rem; margin-left: 12%; }
+
+/* ---------- VÉU SOB O TOPO ----------
+   Texto e imagens (tudo que não é fundo) somem por um degradê ao passar por baixo da faixa do topo: 100% invisíveis acima
+   da linha (--top-zone) e esmaecendo até --fade abaixo dela. Os fundos seguem visíveis.
+   Como funciona: cada seção tem, como primeiro filho, um "véu" (.veil) com position: sticky; top: 0. Ele fica grudado no
+   topo da TELA enquanto a seção passa e é pintado na cor do fundo da própria seção (--veil-color), do opaco ao transparente.
+   Sticky é movido pela thread de composição junto com o scroll: não há atraso e a linha é sempre a mesma, em qualquer ponto.
+   (A versão anterior usava máscara animada por scroll: ela roda na thread principal, atrasa, e perto do fim da página o
+   navegador comprime o intervalo da animação e a máscara sai deslocada.)
+   Exceções: o player do teaser (passa inteiro por baixo do topo) e o rodapé (é o fim da página: nada passa por baixo).
+   Regra de espaçamento: cada seção com véu precisa de folga >= --veil-h em cima e embaixo (padding), onde o véu repousa. */
+:root { --top-zone: 4rem; --fade: 3rem; --veil-h: calc(var(--top-zone) + var(--fade)); }
+.veil {
+  display: block; position: sticky; top: 0; z-index: 10; pointer-events: none;
+  height: var(--veil-h); margin: calc(var(--veil-h) * -1) 0 0;
+  background: linear-gradient(to bottom, var(--veil-color, var(--bg)) 0, var(--veil-color, var(--bg)) var(--top-zone), transparent 100%); /* taste-skill-ignore: degradê do véu sob o topo, pedido pelo Rhadzony */
+}
+.faq .veil { --veil-color: var(--field); }
+/* No hero o véu só aparece depois que a página começa a rolar (senão ele escureceria o topo do hero ao carregar) */
+.hero .veil { display: none; margin: 0 0 calc(var(--veil-h) * -1); }
+@keyframes veil-in { from { opacity: 0; } to { opacity: 1; } }
+@supports (animation-timeline: scroll()) {
+  .hero .veil { display: block; animation: veil-in linear both; animation-timeline: scroll(root block); animation-range: 0 2rem; }
+}
+
+/* Folga de baixo das seções com véu: é um ELEMENTO dentro da seção (::after), não padding. O véu fica grudado até o fim da
+   caixa de conteúdo da seção; com a folga dentro dela, o último elemento passa inteiro sob um véu ainda grudado.
+   flow-root: a margem negativa do véu não vaza para fora da seção. */
+.intro, .teaser, .moments, .dance, .gallery, .faq, .universe, .studio, .contact { padding-bottom: 0; display: flow-root; }
+.intro::after, .teaser::after, .moments::after, .dance::after, .gallery::after, .faq::after, .universe::after, .studio::after, .contact::after {
+  content: ""; display: block; height: var(--section);
+}
+/* Fica ACIMA do véu (z-index 11; o topo é 20): passa inteiro por baixo do topo, sem sumir nem esmaecer.
+   Pedido do Rhadzony: o player do teaser, os bonequinhos do "Mova o corpo", as imagens da "dança entre mundos", as da galeria, a imagem das perguntas, a "uma aula dentro do VR" e "os bastidores" (só a caixa da imagem). */
+.live__stage { position: relative; z-index: 11; }
+:is(.teaser__media, .dance__grid .ph, .gallery__row .ph, .faq__art .ph, .universe__pic, .studio__art .s1) .ph__body { z-index: 11; }   /* só a caixa da imagem; a legenda fica sob o véu */
+
+/* O texto que está DENTRO de um placeholder some pelo MESMO véu das seções (mesma altura e mesmo degradê), mas só o texto:
+   cada caixa de imagem tem um mini-véu sticky (.veil-rail > .veil) na cor da própria caixa. Ele cobre a faixa do topo dentro da
+   caixa, esconde o texto, e o resto da imagem continua visível. Quando as imagens reais entrarem no lugar dos placeholders,
+   a caixa e o mini-véu saem juntos. */
+.veil-rail { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.veil-rail .veil { --veil-color: var(--box, var(--surface)); }
+
+/* ---------- tablet ---------- */
+@media (max-width: 64em) {
+  .universe__table { grid-column: 6 / 13; }
+  .rows li { grid-template-columns: 1fr auto; row-gap: .2rem; }
+  .rows__kind { grid-column: 1 / -1; }
+  .rows__what { grid-column: 1 / -1; text-align: left; }
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 47.99em) {
+  .hero__window { left: 0; right: 0; top: 4.5rem; width: auto; aspect-ratio: 1 / 1.05; }
+  .top__nav a:not(:last-child) { display: none; }
+  .top__nav a:last-child::after { content: none; }
+  :root { --title-bottom: 9.5rem; }
+  .hero__side { left: var(--margin); right: var(--margin); align-items: flex-start; text-align: left; bottom: 1.5rem; }
+  .intro__grid { display: flex; flex-direction: column; }
+  .intro__copy { order: 1; padding-top: 3rem; }
+  .intro__text { text-indent: 0; max-width: none; }
+  .intro__pic { order: 2; width: 62%; margin: 2.5rem 0 0 auto; }
+  .intro__note { order: 3; margin-top: 1.5rem; }
+  .moment { flex-basis: 72vw; }
+  .moments__btns { display: none; }
+  .live { display: block; }
+  .live__stage { margin-top: 2rem; }
+  .gallery__row { display: flex; flex-direction: column; gap: 4rem; margin-bottom: 4rem; }
+  .gallery__row figure { margin-top: 0 !important; }
+  .gallery__row figure:nth-child(odd) { width: 70%; margin-right: auto; }
+  .gallery__row figure:nth-child(even) { width: 84%; margin-left: auto; }
+  .dance__grid { display: flex; flex-direction: column; gap: 3rem; }
+  .dance__grid .d1 { width: 100%; }
+  .dance__grid .d2 { width: 70%; margin: 0 0 0 auto; }
+  .dance__grid .d3 { width: 56%; }
+  .studio__grid { display: flex; flex-direction: column; gap: 3rem; }
+  .crew li { grid-template-columns: 1fr; row-gap: .15rem; }
+  .studio__art .s2 { width: 56%; margin-left: auto; }
+  .faq__grid { display: flex; flex-direction: column; }
+  .faq__art { order: -1; margin-bottom: 3rem; margin-inline: calc(var(--margin) * -1); }
+  .faq__small { left: auto; right: var(--margin); width: 38%; }
+  .universe__grid { display: flex; flex-direction: column-reverse; }
+  .universe__pic { width: 60%; margin: 3rem 0 0 auto; }
+  .universe__title { text-indent: 0; }
+  .contact__grid { display: flex; flex-direction: column; gap: 2rem; }
+  .contact__pic { width: 96px; }
+  .foot__mark { font-size: 10vw; bottom: 3.25rem; }
+}

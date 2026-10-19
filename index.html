@@ -4,22 +4,430 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Entre Corpos</title>
-  <meta name="description" content="Documentário sobre VRChat, Full Body Tracking e as relações humanas na realidade virtual brasileira.">
-  <style>
-    html, body { height: 100%; margin: 0; }
-    body {
-      display: grid; place-items: center; text-align: center;
-      background: #0b0b0f; color: #f5f5f7;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    }
-    h1 { font-size: clamp(2.5rem, 9vw, 6rem); letter-spacing: .08em; margin: 0; }
-    p { color: #9a9aa5; margin: 1rem 1rem 0; }
-  </style>
+  <meta name="description" content="Documentário sobre VRChat, full body tracking e as relações humanas na realidade virtual brasileira.">
+  <meta name="theme-color" content="#07070d">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/site.css">
+  <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-  <main>
-    <h1>ENTRE CORPOS</h1>
-    <p>Em breve.</p>
-  </main>
+
+<!-- Versão em construção. O que aparece como "Placeholder" é conteúdo que ainda vai entrar:
+     o título e a descrição dizem o que será colocado ali. -->
+
+<!-- ============================ TOPO FIXO ============================ -->
+<div class="top">
+  <nav class="top__nav" aria-label="Principal">
+    <a href="#filme">O filme</a>
+    <a href="#como-se-entra">Como se entra</a>
+    <a href="#danca">A dança</a>
+    <a href="#capivara">Capivara</a>
+    <a href="#contato">Contato</a>
+  </nav>
+</div>
+
+<!-- ============================ A MARCA ============================
+     UM elemento só: o título do hero e a marca do topo. A trilha .brand tem a altura da página; o h1 é sticky.
+     No alto ele rola com o hero; ao chegar na linha do topo, gruda e vira a marca (ver css/site.css). -->
+<div class="brand">
+  <span class="brand__probe" aria-hidden="true"></span>
+  <span class="brand__spacer" aria-hidden="true"></span>
+  <h1 class="hero__title lines"><a class="hero__home" href="#topo" aria-label="Entre Corpos, voltar ao início"><span class="line"><span data-line style="--i:0">Entre</span></span><span class="line"><span data-line style="--i:1">Corpos</span></span></a></h1>
+</div>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero" id="topo" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <div class="hero__stage" aria-hidden="false">
+    <!-- fundo desfocado: cópia da mesma mídia, em tela cheia -->
+    <div class="hero__backdrop" aria-hidden="true">
+      <div class="frame frame--1" style="--i:0"></div>
+      <div class="frame frame--2" style="--i:1"></div>
+      <div class="frame frame--3" style="--i:2"></div>
+    </div>
+    <!-- janela nítida: a mídia em foco -->
+    <div class="hero__window" role="img" aria-label="Placeholder: ambiente de VR em tela cheia">
+      <div class="frame frame--1" style="--i:0">
+        <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
+        <p class="ph__title">Um mundo à noite</p>
+        <p class="ph__desc">Entra aqui: um ambiente do VRChat visto à altura dos olhos, vazio, sem pessoa nem avatar em quadro.</p>
+      </div>
+      <div class="frame frame--2" style="--i:1">
+        <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
+        <p class="ph__title">Água e céu</p>
+        <p class="ph__desc">Entra aqui: um mundo aberto, claro, com horizonte. A imagem que dá fôlego ao começo da página.</p>
+      </div>
+      <div class="frame frame--3" style="--i:2">
+        <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
+        <p class="ph__title">Uma sala com luz</p>
+        <p class="ph__desc">Entra aqui: o interior de um mundo social, com luz e mobília, sem ninguém.</p>
+      </div>
+    </div>
+    <div class="vignette" aria-hidden="true"></div>
+  </div>
+
+  <div class="hero__side" data-rise style="--i:3">
+    <p>Um documentário sobre o que acontece entre o corpo e o avatar.</p>
+    <a class="button" href="#teaser">Ver o teaser</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================ 1. O FILME ============================ -->
+<section class="intro" id="filme" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <h2 class="sr-only">O filme</h2>
+  <div class="intro__grid grid wrap">
+    <figure class="intro__pic ph" data-reveal>
+      <div class="ph__body" style="--ar:1/1" role="img" aria-label="Placeholder: frame quadrado do filme">
+        <p class="ph__tag">Placeholder · frame 1:1</p>
+        <p class="ph__title">Um corredor longo</p>
+        <p class="ph__desc">Entra aqui: um frame quadrado de um mundo, sem pessoas.</p>
+      </div>
+    </figure>
+    <div class="intro__copy" data-reveal>
+      <p class="intro__text">Não é um filme sobre tecnologia, é sobre gente: quem coloca um visor, aparece como outro corpo e faz amigos, ensina, namora, trabalha.</p>
+      <p class="intro__body">Entre Corpos acompanha esse trânsito: o que a presença, a identidade e o pertencimento viram quando o corpo físico fica numa sala e o outro está num mundo.</p>
+    </div>
+    <p class="intro__note small muted" data-reveal>Documentário em produção. Ainda sem data de estreia.</p>
+  </div>
+</section>
+
+<!-- ============================ TEASER ============================ -->
+<section class="teaser" id="teaser" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <div class="wrap teaser__head">
+    <h2 class="head" data-reveal>O teaser</h2>
+    <p class="teaser__note small muted" data-reveal>O som só liga quando você aperta o play.</p>
+  </div>
+  <figure class="teaser__media ph ph--wide" data-reveal>
+    <div class="ph__body" style="--ar:16/9" role="img" aria-label="Placeholder: teaser do filme">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+      <p class="ph__tag">Placeholder · vídeo 16:9 · player em tela cheia</p>
+      <p class="ph__title">Teaser do Entre Corpos</p>
+      <p class="ph__desc">Entra aqui: o teaser, montado a partir das gravações. O som só liga quando o visitante aperta o play.</p>
+    </div>
+  </figure>
+</section>
+
+<!-- ============================ 2. COMO SE ENTRA ============================ -->
+<section class="moments" id="como-se-entra" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <div class="moments__top wrap">
+    <h2 class="head" data-reveal>Como se entra</h2>
+    <div class="moments__btns">
+      <button class="sq" type="button" aria-label="Momento anterior" data-prev>←</button>
+      <button class="sq" type="button" aria-label="Próximo momento" data-next>→</button>
+    </div>
+  </div>
+  <div class="moments__bar wrap" aria-hidden="true"><span class="moments__fill" data-fill></span></div>
+
+  <ul class="moments__track" data-track tabindex="0" aria-label="Seis momentos de entrada no VR, arraste para o lado">
+    <li class="moment" style="--gap:5rem">
+      <h3>O visor</h3>
+      <p>A sala some. Sobra um mundo que só existe para quem está nele.</p>
+      <figure class="ph"><div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: o visor">
+        <p class="ph__tag">Placeholder · imagem 4:5</p><p class="ph__title">O visor, de perto</p>
+        <p class="ph__desc">Entra aqui: o visor visto de perto, sem rosto, ou o horizonte de um mundo no instante em que ele liga.</p></div></figure>
+    </li>
+    <li class="moment" style="--gap:8.5rem">
+      <h3>Os sensores</h3>
+      <p>No full body tracking, sensores no corpo levam o movimento inteiro ao avatar: não só mãos e cabeça.</p>
+      <figure class="ph"><div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: os sensores">
+        <p class="ph__tag">Placeholder · imagem 4:5</p><p class="ph__title">Os sensores no corpo</p>
+        <p class="ph__desc">Entra aqui: detalhe dos sensores de rastreamento presos ao corpo, enquadrado do pescoço para baixo.</p></div></figure>
+    </li>
+    <li class="moment" style="--gap:3rem">
+      <h3>O avatar</h3>
+      <p>O corpo que você escolheu, fez ou encomendou. Fantasia para uns, o primeiro corpo que parece deles para outros.</p>
+      <figure class="ph"><div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: o avatar">
+        <p class="ph__tag">Placeholder · imagem 4:5</p><p class="ph__title">Um avatar de costas</p>
+        <p class="ph__desc">Entra aqui: um avatar visto de costas num mundo vazio. Só com autorização de quem criou ou usa o avatar.</p></div></figure>
+    </li>
+    <li class="moment" style="--gap:7rem">
+      <h3>O mundo</h3>
+      <p>Cada mundo é uma sala feita por alguém. Todos no mesmo lugar, ninguém no mesmo corpo.</p>
+      <figure class="ph"><div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: o mundo">
+        <p class="ph__tag">Placeholder · imagem 4:5</p><p class="ph__title">Vista ampla de um mundo</p>
+        <p class="ph__desc">Entra aqui: uma vista ampla de um mundo do VRChat, sem pessoas, que mostre a escala.</p></div></figure>
+    </li>
+    <li class="moment" style="--gap:4rem">
+      <h3>O encontro</h3>
+      <p>Alguém responde ao seu avatar, e não ao que está atrás dele. Uma conversa começa.</p>
+      <figure class="ph"><div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: o encontro">
+        <p class="ph__tag">Placeholder · imagem 4:5</p><p class="ph__title">Duas silhuetas ao longe</p>
+        <p class="ph__desc">Entra aqui: dois avatares conversando ao longe, pequenos no quadro, sem identificação.</p></div></figure>
+    </li>
+    <li class="moment" style="--gap:6rem">
+      <h3>A volta</h3>
+      <p>O visor sai e a sala volta. A conversa ficou.</p>
+      <figure class="ph"><div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: a volta">
+        <p class="ph__tag">Placeholder · imagem 4:5</p><p class="ph__title">O visor sobre a mesa</p>
+        <p class="ph__desc">Entra aqui: o visor pousado numa mesa, em luz de quarto. O mundo físico de volta.</p></div></figure>
+    </li>
+  </ul>
+
+  <!-- A coisa viva: mova o corpo -->
+  <div class="live wrap" id="corpo">
+    <div class="live__copy">
+      <h3 class="lead" data-reveal>Mova o corpo</h3>
+      <p data-reveal>Arraste os pontos de rastreio. O avatar acompanha, mas nunca igual: é o mesmo movimento em outro corpo.</p>
+    </div>
+    <figure class="live__stage" data-reveal>
+      <svg class="live__svg" viewBox="0 0 880 440" role="group" aria-label="Duas figuras: o corpo, com seis pontos de rastreio, e o avatar, que repete o movimento em outras proporções">
+        <g class="live__avatar" data-avatar>
+          <path data-avpath d="M660 120 L660 250 M660 120 L590 205 M660 120 L730 205 M660 250 L610 400 M660 250 L710 400"/>
+          <circle data-avhead cx="660" cy="62" r="36"/>
+        </g>
+        <g class="live__body" data-body>
+          <path data-bopath d="M220 120 L220 250 M220 120 L150 205 M220 120 L290 205 M220 250 L170 400 M220 250 L270 400"/>
+          <circle class="live__headring" data-bohead cx="220" cy="70" r="30"/>
+          <circle class="live__pt" data-pt="head" cx="220" cy="70" r="12" tabindex="0" role="button" aria-label="Mover a cabeça (setas do teclado)"/>
+          <circle class="live__pt" data-pt="handL" cx="150" cy="205" r="12" tabindex="0" role="button" aria-label="Mover a mão esquerda"/>
+          <circle class="live__pt" data-pt="handR" cx="290" cy="205" r="12" tabindex="0" role="button" aria-label="Mover a mão direita"/>
+          <circle class="live__pt" data-pt="hip" cx="220" cy="250" r="12" tabindex="0" role="button" aria-label="Mover o quadril"/>
+          <circle class="live__pt" data-pt="footL" cx="170" cy="400" r="12" tabindex="0" role="button" aria-label="Mover o pé esquerdo"/>
+          <circle class="live__pt" data-pt="footR" cx="270" cy="400" r="12" tabindex="0" role="button" aria-label="Mover o pé direito"/>
+        </g>
+        <text x="220" y="436" text-anchor="middle" class="live__label">O corpo</text>
+        <text x="660" y="436" text-anchor="middle" class="live__label">O avatar</text>
+      </svg>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ CENA 01 — A DANÇA ============================ -->
+<section class="dance" id="danca" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <div class="wrap dance__head">
+    <h2 class="head" data-reveal>A dança entre mundos</h2>
+    <p class="dance__lead" data-reveal>Uma dança feita ao mesmo tempo no estúdio e no VRChat. O corte vai e volta entre os dois corpos.</p>
+  </div>
+  <div class="dance__grid grid wrap">
+    <figure class="ph d1" data-reveal>
+      <div class="ph__body" style="--ar:16/9" role="img" aria-label="Placeholder: a dança no estúdio">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+        <p class="ph__tag">Placeholder · vídeo 16:9 · cena 01</p>
+        <p class="ph__title">A dança no estúdio</p>
+        <p class="ph__desc">Entra aqui: um trecho da dança no mundo físico, em estúdio, com a câmera aberta no corpo inteiro. Só com autorização da dançarina.</p>
+      </div>
+      <figcaption class="small muted">No estúdio</figcaption>
+    </figure>
+    <figure class="ph d2" data-reveal>
+      <div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: a mesma dança no VRChat">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+        <p class="ph__tag">Placeholder · vídeo 4:5 · cena 01</p>
+        <p class="ph__title">A mesma dança, no VRChat</p>
+        <p class="ph__desc">Entra aqui: os mesmos passos feitos pelo avatar, dentro de um mundo. A mesma coreografia, em outro corpo.</p>
+      </div>
+      <figcaption class="small muted">No mundo virtual</figcaption>
+    </figure>
+    <figure class="ph d3" data-reveal>
+      <div class="ph__body" style="--ar:1/1" role="img" aria-label="Placeholder: o corte entre os dois lados">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+        <p class="ph__tag">Placeholder · vídeo 1:1 · loop curto</p>
+        <p class="ph__title">O corte</p>
+        <p class="ph__desc">Entra aqui: um trecho curto em que a imagem vai e volta entre o estúdio e o mundo virtual.</p>
+      </div>
+      <figcaption class="small muted">Os dois lados, intercalados</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ 3. GALERIA ============================ -->
+<section class="gallery" id="galeria" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <h2 class="sr-only">Galeria de mundos</h2>
+
+  <div class="gallery__row gallery__row--a wrap">
+    <figure class="ph g1" data-reveal><div class="ph__body" style="--ar:3/4" role="img" aria-label="Placeholder: galeria 1">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+      <p class="ph__tag">Placeholder · imagem 3:4</p><p class="ph__title">Uma sala vazia</p>
+      <p class="ph__desc">Entra aqui: um interior de mundo, em luz baixa. Sem pessoas.</p></div>
+      <figcaption class="small muted">Uma sala vazia</figcaption></figure>
+    <figure class="ph g2" data-reveal><div class="ph__body" style="--ar:5/4" role="img" aria-label="Placeholder: galeria 2">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+      <p class="ph__tag">Placeholder · vídeo 5:4 · loop curto</p><p class="ph__title">Luz atravessando uma janela</p>
+      <p class="ph__desc">Entra aqui: um loop de luz entrando por uma janela dentro de um mundo.</p></div>
+      <figcaption class="small muted">Luz atravessando uma janela</figcaption></figure>
+  </div>
+
+  <div class="gallery__row gallery__row--b wrap">
+    <figure class="ph g3" data-reveal><div class="ph__body" style="--ar:3/2" role="img" aria-label="Placeholder: galeria 3">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+      <p class="ph__tag">Placeholder · imagem 3:2</p><p class="ph__title">Um palco de evento</p>
+      <p class="ph__desc">Entra aqui: um palco ou pista de um evento do VRChat, vazio, antes de começar.</p></div>
+      <figcaption class="small muted">Um palco, antes do evento</figcaption></figure>
+    <figure class="ph g4" data-reveal><div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: galeria 4">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+      <p class="ph__tag">Placeholder · imagem 4:5</p><p class="ph__title">Uma escada num mundo</p>
+      <p class="ph__desc">Entra aqui: uma escada ou passagem que leva a outro lugar do mundo.</p></div>
+      <figcaption class="small muted">Uma escada</figcaption></figure>
+  </div>
+
+  <div class="gallery__row gallery__row--a gallery__row--mirror wrap">
+    <figure class="ph g1" data-reveal><div class="ph__body" style="--ar:3/4" role="img" aria-label="Placeholder: galeria 5">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+      <p class="ph__tag">Placeholder · imagem 3:4</p><p class="ph__title">Um mundo ao amanhecer</p>
+      <p class="ph__desc">Entra aqui: a primeira luz do dia num mundo aberto.</p></div>
+      <figcaption class="small muted">Amanhecer</figcaption></figure>
+    <figure class="ph g2" data-reveal><div class="ph__body" style="--ar:5/4" role="img" aria-label="Placeholder: galeria 6">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+      <p class="ph__tag">Placeholder · vídeo 5:4 · loop curto</p><p class="ph__title">Um corredor longo</p>
+      <p class="ph__desc">Entra aqui: câmera avançando devagar por um corredor de um mundo.</p></div>
+      <figcaption class="small muted">Um corredor, sem fim</figcaption></figure>
+  </div>
+</section>
+
+<!-- ============================ 4. PERGUNTAS ============================ -->
+<section class="faq" id="perguntas" data-ink="#07070d">
+  <i class="veil" aria-hidden="true"></i>
+  <div class="faq__grid grid">
+    <div class="faq__col">
+      <h2 class="head" data-reveal>O que é isso tudo?</h2>
+      <p class="faq__facts" data-reveal>Documentário · Em português · Ainda sem data de estreia</p>
+      <div class="faq__list" data-reveal>
+        <details><summary>O que é o VRChat?</summary>
+          <p>Uma plataforma social em realidade virtual. Você entra em mundos feitos pelos próprios usuários e conversa com outras pessoas por meio de avatares.</p></details>
+        <details><summary>O que é full body tracking?</summary>
+          <p>Sensores presos ao corpo, em geral no quadril e nos pés, para o avatar se mexer como você. Também chamado de FBT.</p></details>
+        <details><summary>O que é um avatar?</summary>
+          <p>O corpo que você usa dentro do mundo: humano, animal, personagem ou algo que não existe.</p></details>
+        <details><summary>Preciso de um visor para entrar?</summary>
+          <p>Não: dá para entrar pelo computador. O visor e o rastreamento do corpo mudam a sensação de presença.</p></details>
+        <details><summary>Quem aparece no filme?</summary>
+          <p>Pessoas da comunidade brasileira, com autorização de cada uma e no corpo que quiserem mostrar.</p></details>
+        <details><summary>Quando estreia?</summary>
+          <p>Ainda não tem data. O teaser vem antes.</p></details>
+      </div>
+      <div class="faq__actions" data-reveal>
+        <a class="button button--dark" href="#contato">Acompanhar</a>
+        <a class="link-plain" href="#teaser">Ver o teaser</a>
+      </div>
+    </div>
+    <div class="faq__art">
+      <figure class="ph faq__tall"><div class="ph__body ph__body--on-field" style="--ar:3/4" role="img" aria-label="Placeholder: imagem vertical">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+        <p class="ph__tag">Placeholder · imagem 3:4</p><p class="ph__title">Vertical de um mundo</p>
+        <p class="ph__desc">Entra aqui: uma imagem vertical, alta, de um mundo com muita profundidade.</p></div></figure>
+      <figure class="ph faq__small"><div class="ph__body ph__body--on-field" style="--ar:1/1" role="img" aria-label="Placeholder: detalhe quadrado">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+        <p class="ph__tag">Placeholder · imagem 1:1</p><p class="ph__title">Um detalhe</p>
+        <p class="ph__desc">Entra aqui: um detalhe de textura ou luz de um mundo.</p></div></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 5. UNIVERSO ============================ -->
+<section class="universe" id="universo" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <div class="wrap">
+    <h2 class="head universe__title" data-reveal>Quem constrói esse universo</h2>
+  </div>
+  <div class="universe__grid grid wrap">
+    <figure class="ph universe__pic" data-reveal><div class="ph__body" style="--ar:4/5" role="img" aria-label="Placeholder: aula ou encontro dentro do VR">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+      <p class="ph__tag">Placeholder · imagem 4:5</p><p class="ph__title">Uma aula dentro do VR</p>
+      <p class="ph__desc">Entra aqui: um frame de uma aula ou encontro dentro do VRChat. Só com autorização de quem aparece.</p></div></figure>
+    <div class="universe__table" data-reveal>
+      <p class="universe__word small muted">Parceiros e personagens</p>
+      <ul class="rows">
+        <li><span class="rows__kind muted">Escola de inglês no VR</span><span class="rows__name"><span class="name" data-liberado="sim">WeLearnFast</span></span><span class="rows__what">Ensina inglês dentro do VRChat.</span></li>
+        <li><span class="rows__kind muted">Full body tracking</span><span class="rows__name"><span class="name" data-liberado="sim">NovaTrackers</span></span><span class="rows__what">Sensores de rastreamento do corpo, feitos no Brasil.</span></li>
+        <li><span class="rows__kind muted">Comunidade</span><span class="rows__name"><span class="name" data-liberado="sim">tribos.78</span></span><span class="rows__what">Placeholder: descrição a definir.</span></li>
+        <li class="rows__gap"><span class="rows__kind muted">No filme</span><span class="rows__name"><span class="name" data-liberado="sim">Yoshiro</span></span><span class="rows__what">Criador de conteúdo.</span></li>
+        <li><span class="rows__kind muted">No filme</span><span class="rows__name"><span class="name" data-liberado="sim">Pão de Queijo</span></span><span class="rows__what">VTuber.</span></li>
+        <li><span class="rows__kind muted">E outros</span><span class="rows__name">A confirmar</span><span class="rows__what">Placeholder: mais parceiros e personagens, um a um, com autorização.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ A PRODUTORA — CAPIVARA ============================ -->
+<section class="studio" id="capivara" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <div class="studio__grid grid wrap">
+    <div class="studio__copy">
+      <h2 class="head" data-reveal>Capivara</h2>
+      <p class="studio__lead" data-reveal>A Capivara é a produtora do Entre Corpos. O nome é de uma produtora antiga, que a gente trouxe de volta para este filme.</p>
+      <ul class="crew" data-reveal>
+        <li><span class="crew__role muted">Direção e edição</span><span class="crew__name"><span class="name" data-liberado="sim">Rhadzony</span></span></li>
+        <li><span class="crew__role muted">Produção executiva</span><span class="crew__name"><span class="name" data-liberado="sim">Emilly</span></span></li>
+        <li><span class="crew__role muted">Fotografia e câmera</span><span class="crew__name"><span class="name" data-liberado="sim">Ellen</span>, <span class="name" data-liberado="sim">Vinicius</span>, <span class="name" data-liberado="sim">Fabrizzio</span></span></li>
+        <li><span class="crew__role muted">Making of</span><span class="crew__name"><span class="name" data-liberado="sim">Fabrizzio</span>, <span class="name" data-liberado="sim">Itiel</span></span></li>
+        <li><span class="crew__role muted">Orientação</span><span class="crew__name"><span class="name" data-liberado="sim">Gabriel Ferreira</span></span></li>
+      </ul>
+    </div>
+    <div class="studio__art">
+      <figure class="ph s1" data-reveal>
+        <div class="ph__body" style="--ar:4/3" role="img" aria-label="Placeholder: bastidores">
+        <span class="veil-rail" aria-hidden="true"><i class="veil"></i></span>
+          <p class="ph__tag">Placeholder · imagem ou vídeo 4:3</p>
+          <p class="ph__title">Os bastidores</p>
+          <p class="ph__desc">Entra aqui: a equipe da Capivara gravando, no estúdio e na frente do computador. Imagens do making of.</p>
+        </div>
+        <figcaption class="small muted">Bastidores</figcaption>
+      </figure>
+      <figure class="ph s2" data-reveal>
+        <div class="ph__body" style="--ar:1/1" role="img" aria-label="Placeholder: marca da Capivara">
+          <p class="ph__tag">Placeholder · logo</p>
+          <p class="ph__title">A marca da Capivara</p>
+          <p class="ph__desc">Entra aqui: o logo da Capivara, quando existir.</p>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 6. CONTATO ============================ -->
+<section class="contact" id="contato" data-ink="#eef1ff">
+  <i class="veil" aria-hidden="true"></i>
+  <div class="contact__grid grid wrap">
+    <p class="contact__lead" data-reveal>Quer acompanhar o Entre Corpos? Escreva ou siga o projeto. A gente avisa quando houver data.</p>
+    <figure class="ph contact__pic" data-reveal><div class="ph__body" style="--ar:1/1" role="img" aria-label="Placeholder: frame pequeno">
+      <p class="ph__tag">Placeholder · 1:1</p><p class="ph__title">Um frame pequeno</p>
+      <p class="ph__desc">Entra aqui: um frame do filme.</p></div></figure>
+    <div class="contact__links" data-reveal>
+      <p class="contact__q">Como falar com a gente?</p>
+      <a class="link-plain" href="#" data-pendente>Instagram (link a definir)</a>
+      <a class="link-plain" href="#" data-pendente>E-mail (endereço a definir)</a>
+      <p class="small muted">Brasil. Respondemos quando der.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================ RODAPÉ ============================ -->
+<footer class="foot" data-ink="#eef1ff">
+  <div class="foot__stage">
+    <div class="foot__media" role="img" aria-label="Placeholder: último ambiente">
+      <p class="ph__tag">Placeholder · imagem 16:9 · tela cheia, escurecida</p>
+      <p class="ph__title">Um mundo ao amanhecer</p>
+      <p class="ph__desc">Entra aqui: o último ambiente, em tela cheia, com a parte do meio interessante. O nome atravessa a parte de baixo.</p>
+    </div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="foot__top">
+      <nav class="foot__links" aria-label="Rodapé">
+        <a href="#filme">O filme</a>
+        <a href="#teaser">Teaser</a>
+        <a href="#danca">A dança</a>
+        <a href="#perguntas">Perguntas</a>
+        <a href="#universo">Universo</a>
+        <a href="#capivara">Capivara</a>
+      </nav>
+      <p class="foot__contact"><a class="link-plain" href="#contato">Contato</a></p>
+    </div>
+    <p class="foot__mark" aria-hidden="true">ENTRE CORPOS</p>
+    <p class="foot__legal">Documentário em produção.</p>
+  </div>
+</footer>
+
+<script src="js/base.js"></script>
+<script src="js/site.js"></script>
 </body>
 </html>

@@ -279,6 +279,33 @@ ul.crew { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; row-g
 .studio__art { grid-column: 7 / 13; }
 .studio__art .s2 { width: 42%; margin-top: 2.5rem; margin-left: 12%; }
 
+/* ---------- HERO: FUNDO SEPARADO DOS ELEMENTOS ----------
+   O FUNDO (desfoque que troca de cor + vinheta) rola com a página e continua visível sob o topo, sem escurecer.
+   Os ELEMENTOS (janela de mídia, frase e botão) ficam numa camada própria, .hero__layer:
+   • um elemento de fora, preso na tela (position: fixed), com uma máscara ESTÁTICA: 64px escondidos e degradê até 112px, a mesma geometria do
+     véu das seções, mas só sobre os elementos, não sobre o fundo;
+   • um elemento de dentro (.hero__rise) com um movimento ligado ao scroll (translateY até -100svh, no compositor) sobe exatamente como se
+     rolasse junto com o hero. Máscara parada + movimento no compositor: sem atraso.
+   Sem suporte a animações por scroll: a camada é só uma caixa dentro do hero, rola normalmente e nada é escondido. */
+.hero__layer { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.hero__rise { position: absolute; inset: 0; }
+.hero__layer .button { pointer-events: auto; }
+@keyframes hero-rise { to { transform: translateY(-100svh); } }
+@supports (animation-timeline: scroll()) {
+  .hero__layer {
+    position: fixed; inset: 0 0 auto 0; height: 100svh;
+    mask-image: linear-gradient(to bottom, transparent var(--top-zone), #000 var(--veil-h)); /* taste-skill-ignore: máscara estática do hero sob o topo, pedido pelo Rhadzony */
+  }
+  /* A máscara está no elemento de FORA (parado). O de DENTRO é o que sobe: uma transformação desloca também o espaço da
+     máscara, então máscara e movimento não podem estar no mesmo elemento. */
+  .hero__rise { animation: hero-rise linear both; animation-timeline: scroll(root block); animation-range: 0 100svh; }
+}
+/* a vinheta do fundo agora fica abaixo da camada; a janela ganha a sua, só nas bordas dela */
+.hero__window::before {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 60%, rgba(0,0,0,.4) 100%); /* taste-skill-ignore: vinheta da janela, pedida pelo Rhadzony */
+}
+
 /* ---------- VÉU SOB O TOPO ----------
    Texto e imagens (tudo que não é fundo) somem por um degradê ao passar por baixo da faixa do topo: 100% invisíveis acima
    da linha (--top-zone) e esmaecendo até --fade abaixo dela. Os fundos seguem visíveis.
@@ -296,12 +323,6 @@ ul.crew { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; row-g
   background: linear-gradient(to bottom, var(--veil-color, var(--bg)) 0, var(--veil-color, var(--bg)) var(--top-zone), transparent 100%); /* taste-skill-ignore: degradê do véu sob o topo, pedido pelo Rhadzony */
 }
 .faq .veil { --veil-color: var(--field); }
-/* No hero o véu só aparece depois que a página começa a rolar (senão ele escureceria o topo do hero ao carregar) */
-.hero .veil { display: none; margin: 0 0 calc(var(--veil-h) * -1); }
-@keyframes veil-in { from { opacity: 0; } to { opacity: 1; } }
-@supports (animation-timeline: scroll()) {
-  .hero .veil { display: block; animation: veil-in linear both; animation-timeline: scroll(root block); animation-range: 0 2rem; }
-}
 
 /* Folga de baixo das seções com véu: é um ELEMENTO dentro da seção (::after), não padding. O véu fica grudado até o fim da
    caixa de conteúdo da seção; com a folga dentro dela, o último elemento passa inteiro sob um véu ainda grudado.

@@ -40,7 +40,6 @@
 
 <!-- ============================ HERO ============================ -->
 <header class="hero" id="topo" data-ink="#eef1ff">
-  <i class="veil" aria-hidden="true"></i>
   <div class="hero__stage" aria-hidden="false">
     <!-- fundo desfocado: cópia da mesma mídia, em tela cheia -->
     <div class="hero__backdrop" aria-hidden="true">
@@ -48,30 +47,37 @@
       <div class="frame frame--2" style="--i:1"></div>
       <div class="frame frame--3" style="--i:2"></div>
     </div>
-    <!-- janela nítida: a mídia em foco -->
-    <div class="hero__window" role="img" aria-label="Placeholder: ambiente de VR em tela cheia">
-      <div class="frame frame--1" style="--i:0">
-        <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
-        <p class="ph__title">Um mundo à noite</p>
-        <p class="ph__desc">Entra aqui: um ambiente do VRChat visto à altura dos olhos, vazio, sem pessoa nem avatar em quadro.</p>
-      </div>
-      <div class="frame frame--2" style="--i:1">
-        <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
-        <p class="ph__title">Água e céu</p>
-        <p class="ph__desc">Entra aqui: um mundo aberto, claro, com horizonte. A imagem que dá fôlego ao começo da página.</p>
-      </div>
-      <div class="frame frame--3" style="--i:2">
-        <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
-        <p class="ph__title">Uma sala com luz</p>
-        <p class="ph__desc">Entra aqui: o interior de um mundo social, com luz e mobília, sem ninguém.</p>
-      </div>
-    </div>
     <div class="vignette" aria-hidden="true"></div>
   </div>
 
-  <div class="hero__side" data-rise style="--i:3">
-    <p>Um documentário sobre o que acontece entre o corpo e o avatar.</p>
-    <a class="button" href="#teaser">Ver o teaser</a>
+  <!-- Camada dos ELEMENTOS do hero (janela de mídia, frase e botão), separada do FUNDO (desfoque e vinheta, que ficam em .hero__stage).
+       Ver css/site.css: a camada fica presa na tela, com máscara estática, e sobe junto com o scroll. -->
+  <div class="hero__layer">
+    <div class="hero__rise">
+      <!-- janela nítida: a mídia em foco -->
+      <div class="hero__window" role="img" aria-label="Placeholder: ambiente de VR em tela cheia">
+        <div class="frame frame--1" style="--i:0">
+          <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
+          <p class="ph__title">Um mundo à noite</p>
+          <p class="ph__desc">Entra aqui: um ambiente do VRChat visto à altura dos olhos, vazio, sem pessoa nem avatar em quadro.</p>
+        </div>
+        <div class="frame frame--2" style="--i:1">
+          <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
+          <p class="ph__title">Água e céu</p>
+          <p class="ph__desc">Entra aqui: um mundo aberto, claro, com horizonte. A imagem que dá fôlego ao começo da página.</p>
+        </div>
+        <div class="frame frame--3" style="--i:2">
+          <p class="ph__tag">Placeholder · vídeo 16:10 · loop de 6 s · sem áudio</p>
+          <p class="ph__title">Uma sala com luz</p>
+          <p class="ph__desc">Entra aqui: o interior de um mundo social, com luz e mobília, sem ninguém.</p>
+        </div>
+      </div>
+
+    <div class="hero__side" data-rise style="--i:3">
+      <p>Um documentário sobre o que acontece entre o corpo e o avatar.</p>
+      <a class="button" href="#teaser">Ver o teaser</a>
+    </div>
+    </div>
   </div>
 </header>
 

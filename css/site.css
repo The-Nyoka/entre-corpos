@@ -340,7 +340,10 @@ ul.crew { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; row-g
    cada caixa de imagem tem um mini-véu sticky (.veil-rail > .veil) na cor da própria caixa. Ele cobre a faixa do topo dentro da
    caixa, esconde o texto, e o resto da imagem continua visível. Quando as imagens reais entrarem no lugar dos placeholders,
    a caixa e o mini-véu saem juntos. */
-.veil-rail { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+/* A trilha desce --veil-h ALÉM da caixa (o excesso é cortado pelo overflow: clip da caixa e não aparece). Motivo: o placeholder tem o texto
+   na parte de baixo da caixa; o mini-véu só fica grudado no topo da tela enquanto houver --veil-h de trilha abaixo dele. Sem esse
+   excesso ele era empurrado para cima nos últimos 112px da caixa e o texto ficava sob a rampa transparente (não sumia por completo). */
+.veil-rail { position: absolute; inset: 0 0 calc(var(--veil-h) * -1) 0; z-index: 2; pointer-events: none; }
 .veil-rail .veil { --veil-color: var(--box, var(--surface)); }
 
 /* ---------- tablet ---------- */

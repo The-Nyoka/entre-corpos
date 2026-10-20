@@ -8,6 +8,13 @@ const syncHidden = () => document.documentElement.classList.toggle('is-hidden', 
 document.addEventListener('visibilitychange', syncHidden);
 syncHidden();
 
+// 1a. Pausa a troca de mídia do hero quando ele sai da tela (menos trabalho para a GPU durante o resto da rolagem)
+(() => {
+  const hero = document.querySelector('.hero');
+  if (!hero || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(([e]) => document.documentElement.classList.toggle('hero-off', !e.isIntersecting)).observe(hero);
+})();
+
 // 1b. A marca "Entre Corpos": o movimento é todo em CSS (sticky + animação ligada ao scroll, ver css/site.css).
 //     Aqui só se mede a escala final: tamanho dos links do topo / tamanho do título.
 (() => {

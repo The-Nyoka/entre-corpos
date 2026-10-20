@@ -42,7 +42,7 @@ h1, h2, h3 { letter-spacing: -0.03em; line-height: 0.98; font-weight: 400; }
   padding: 1.25rem;
   display: flex; flex-direction: column; justify-content: flex-end; gap: .4rem;
 }
-.ph__body > :not(.veil-rail) { position: relative; }              /* texto acima do grão */
+.ph__body > * { position: relative; }              /* texto acima do grão */
 .ph__body::before, .foot__media::before, .hero__window::after {  /* GRÃO: textura PNG, só sobre a mídia */
   content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
   background: url("../img/grain.png"); background-size: 256px; opacity: .07;
@@ -63,7 +63,9 @@ h1, h2, h3 { letter-spacing: -0.03em; line-height: 0.98; font-weight: 400; }
 /* ---------- HERO ---------- */
 .hero { position: relative; min-height: 100svh; overflow: clip; color: var(--ink); }
 .hero__stage { position: absolute; inset: 0; }
-.hero__backdrop { position: absolute; inset: 0; filter: blur(52px) saturate(1.25); transform: scale(1.14); }   /* DESFOQUE: a mesma mídia, em tela cheia */
+/* DESFOQUE: a mesma mídia, em tela cheia. Desfocar em 1/4 do tamanho (blur 13px) e ampliar 4x dá o mesmo resultado que blur(52px)
+   em tamanho cheio, com ~16x menos pixels para a GPU refazer a cada quadro da troca de mídia (e do vídeo, quando entrar). */
+.hero__backdrop { position: absolute; left: 37.5%; top: 37.5%; width: 25%; height: 25%; filter: blur(13px) saturate(1.25); transform: scale(4.56); will-change: transform; }
 .hero .frame { position: absolute; inset: 0; opacity: 0; }
 .hero .frame--1 { opacity: 1; }
 .frame--1 { background: #232349; }
@@ -134,7 +136,7 @@ body { position: relative; }
 /* troca lenta de mídia (assinatura): três frames, 6 s cada, ~1,2 s de fusão */
 @media (prefers-reduced-motion: no-preference) {
   .js .hero .frame { animation: xfade 18s linear infinite; animation-delay: calc(var(--i, 0) * 6s - 1.2s); }
-  .is-hidden .hero .frame { animation-play-state: paused; }
+  .is-hidden .hero .frame, .hero-off .hero .frame { animation-play-state: paused; }   /* aba escondida ou hero fora da tela */
 }
 @media (prefers-reduced-motion: reduce) {
   .hero .frame--2, .hero .frame--3 { display: none; }   /* a página reduzida é a página final: só o primeiro frame */
@@ -334,17 +336,31 @@ ul.crew { list-style: none; margin: 2.5rem 0 0; padding: 0; display: grid; row-g
 /* Fica ACIMA do véu (z-index 11; o topo é 20): passa inteiro por baixo do topo, sem sumir nem esmaecer.
    Pedido do Rhadzony: o player do teaser, os bonequinhos do "Mova o corpo", as imagens da "dança entre mundos", as da galeria, a imagem das perguntas, a "uma aula dentro do VR" e "os bastidores" (só a caixa da imagem). */
 .live__stage { position: relative; z-index: 11; }
-:is(.teaser__media, .dance__grid .ph, .gallery__row .ph, .faq__art .ph, .universe__pic, .studio__art .s1) .ph__body { z-index: 11; }   /* só a caixa da imagem; a legenda fica sob o véu */
+/* O z-index vai na FIGURA inteira, não só na caixa: [data-reveal] (opacity/transform) cria um contexto de empilhamento próprio enquanto
+   a imagem aparece; com z-index automático a figura ficava ABAIXO do véu (z 10) nesse tempo e a faixa cobria a imagem até o fim da
+   entrada. Com z-index 11 na figura ela passa por cima do véu inclusive durante a animação. */
+:is(.teaser__media, .dance__grid .ph, .gallery__row .ph, .faq__art .ph, .universe__pic, .studio__art .s1) { z-index: 11; }
+:is(.teaser__media, .studio__art .s1, .faq__tall) { position: relative; }
+/* a legenda (figcaption) das imagens desce pelo mesmo caminho do texto dos placeholders: some ao passar pelo topo */
+:is(.dance__grid .ph, .gallery__row .ph, .faq__art .ph, .universe__pic, .studio__art .s1) figcaption {
+  view-timeline: --txt block; view-timeline-inset: var(--top-zone) 0px;
+  animation: txt-out linear both; animation-timeline: --txt;
+  animation-range: exit calc(100% - var(--fade)) exit 100%;
+}
+@media (prefers-reduced-motion: reduce) { :is(.dance__grid .ph, .gallery__row .ph, .faq__art .ph, .universe__pic, .studio__art .s1) figcaption { animation: none; } }
 
-/* O texto que está DENTRO de um placeholder some pelo MESMO véu das seções (mesma altura e mesmo degradê), mas só o texto:
-   cada caixa de imagem tem um mini-véu sticky (.veil-rail > .veil) na cor da própria caixa. Ele cobre a faixa do topo dentro da
-   caixa, esconde o texto, e o resto da imagem continua visível. Quando as imagens reais entrarem no lugar dos placeholders,
-   a caixa e o mini-véu saem juntos. */
-/* A trilha desce --veil-h ALÉM da caixa (o excesso é cortado pelo overflow: clip da caixa e não aparece). Motivo: o placeholder tem o texto
-   na parte de baixo da caixa; o mini-véu só fica grudado no topo da tela enquanto houver --veil-h de trilha abaixo dele. Sem esse
-   excesso ele era empurrado para cima nos últimos 112px da caixa e o texto ficava sob a rampa transparente (não sumia por completo). */
-.veil-rail { position: absolute; inset: 0 0 calc(var(--veil-h) * -1) 0; z-index: 2; pointer-events: none; }
-.veil-rail .veil { --veil-color: var(--box, var(--surface)); }
+/* O texto que está DENTRO de um placeholder some por animação nativa ligada ao scroll (view timeline), sem camada extra por cima da imagem:
+   cada linha de texto (.ph__tag/.ph__title/.ph__desc) tem opacidade 1 até a borda de baixo dela chegar em --veil-h do alto da tela e
+   chega a 0 quando essa borda alcança --top-zone: a mesma faixa do véu das seções. A caixa e a imagem não são tocadas. */
+.fade-text.ph__body > :is(.ph__tag, .ph__title, .ph__desc),
+.fade-text .ph__body > :is(.ph__tag, .ph__title, .ph__desc) {
+  view-timeline: --txt block; view-timeline-inset: var(--top-zone) 0px;
+  animation: txt-out linear both; animation-timeline: --txt;
+  animation-range: exit calc(100% - var(--fade)) exit 100%;
+}
+@keyframes txt-out { to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .fade-text .ph__tag, .fade-text .ph__title, .fade-text .ph__desc { animation: none; } }
+@supports not (animation-timeline: view()) { .fade-text .ph__tag { animation: none; } }
 
 /* ---------- tablet ---------- */
 @media (max-width: 64em) {
